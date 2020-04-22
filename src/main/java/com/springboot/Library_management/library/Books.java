@@ -17,7 +17,7 @@ public class Books {
 	private int bookId;
 	private String bookname;
 	private String author;
-	private Date date;
+	private String date;
 	private int edition;
 	private float amount;
 	
@@ -39,10 +39,10 @@ public class Books {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	public int getEdition() {
