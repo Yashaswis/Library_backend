@@ -1,8 +1,7 @@
 package com.springboot.Library_management.library;
+import org.springframework.data.repository.CrudRepository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface LibraryRepository extends JpaRepository<Books, Integer> {
+public interface LibraryRepository extends CrudRepository<Books, Integer> {
 
 
 }
