@@ -1,10 +1,13 @@
-package com.springboot.Library_management;
-
+package com.springboot.Library_management.library;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.springboot.Library_management.library.exception.BookNotFoundException;
 import com.springboot.Library_management.library.exception.BooksExistsException;
 import com.springboot.Library_management.library.Books;
@@ -12,11 +15,11 @@ import com.springboot.Library_management.library.LibraryRepository;
 @Service
 public class BookService {
 	@Autowired 
-	LibraryRepository libraryRespository;
+	LibraryRepository libraryRepository;
 	
 	public List<Books> getAllBooks()
 	{  
-		return libraryRepository.findAll();  
+		return (List<Books>) libraryRepository.findAll();  
 	} 
 	
 	
@@ -54,16 +57,17 @@ public class BookService {
 	
 	
 	public Books updateBooksById(int bookId, Books book) throws BookNotFoundException {
-		Optional<Books> optionalBook = LibraryRepository.findById(bookId);
+		Optional<Books> optionalBook = libraryRepository.findById(bookId);
 
 		if (!optionalBook.isPresent()) {
 			throw new BookNotFoundException("Book Not found in library Repository, provide the correct book id");
 		}
 
 		
-		book.setId(bookId);
+		book.setBookId(bookId);
 		return libraryRepository.save(book);
 
 	}
 	
 }
+

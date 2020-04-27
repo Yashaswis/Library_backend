@@ -1,7 +1,4 @@
 package com.springboot.Library_management.library;
-
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,9 +12,12 @@ public class Books {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="book_Id")
 	private int bookId;
+	@Column(name = "bookname", length = 50, nullable = false, unique = true)
 	private String bookname;
+	@Column(name = "author", length = 50, nullable = false)
 	private String author;
 	private String date;
+	@Column(name = "edition", length = 50, nullable = false, unique = true)
 	private int edition;
 	private float amount;
 	
