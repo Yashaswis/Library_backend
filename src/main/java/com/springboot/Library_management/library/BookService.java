@@ -1,9 +1,9 @@
 package com.springboot.Library_management.library;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,6 +13,7 @@ import com.springboot.Library_management.library.exception.BooksExistsException;
 import com.springboot.Library_management.library.Books;
 import com.springboot.Library_management.library.LibraryRepository;
 @Service
+@SpringBootApplication
 public class BookService {
 	@Autowired 
 	LibraryRepository libraryRepository;

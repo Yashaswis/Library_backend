@@ -24,10 +24,10 @@ public class LibraryController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(path="/books")
-	public ResponseEntity<Void> addBooks(@RequestBody Books book) {
+	public ResponseEntity<Books> addBooks(@RequestBody Books book) {
 		 try{
 			 bookService.addBooks(book);
-			 return new ResponseEntity<Void>(HttpStatus.CREATED);
+			 return new ResponseEntity<Books>(HttpStatus.CREATED);
 		 }
 		 catch(BooksExistsException ex) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
