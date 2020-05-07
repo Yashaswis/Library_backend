@@ -9,7 +9,7 @@ public interface BookService {
 
 	public BooksRequestDto updateBooks(Integer bookId,BooksRequestDto book);
 
-	public void deleteBooks(Integer bookId);
+	public void deleteBooks(int bookId);
 
 	public Optional<BooksRequestDto> getBooksbyId(Integer bookId);
 	

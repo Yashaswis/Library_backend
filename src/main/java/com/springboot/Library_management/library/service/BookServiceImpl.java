@@ -10,7 +10,7 @@ import com.springboot.Library_management.library.BooksRequestDto;
 import com.springboot.Library_management.library.LibraryRepository;
 
 @Service("bookService")
-public abstract class BookServiceImpl implements BookService {
+public class BookServiceImpl implements BookService {
 	@Autowired
 	private LibraryRepository libraryRepository;
 	
@@ -28,12 +28,6 @@ public abstract class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void deleteBooks(Integer bookId) {
-		// TODO Auto-generated method stub
-		libraryRepository.deleteById(bookId);
-	}
-
-	@Override
 	public Optional<BooksRequestDto> getBooksbyId(Integer bookId) {
 		// TODO Auto-generated method stub
 		return libraryRepository.findById(bookId);
@@ -43,6 +37,12 @@ public abstract class BookServiceImpl implements BookService {
 	public List<BooksRequestDto> getAllBooks() {
 		// TODO Auto-generated method stub
 		return (List<BooksRequestDto>) libraryRepository.findAll();
+	}
+
+	@Override
+	public void deleteBooks(int bookId) {
+		// TODO Auto-generated method stub
+		libraryRepository.deleteById(bookId);
 	}
 
 }
