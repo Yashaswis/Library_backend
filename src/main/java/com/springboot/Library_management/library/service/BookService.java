@@ -1,11 +1,12 @@
 package com.springboot.Library_management.library.service;
 import java.util.List;
 import com.springboot.Library_management.library.Books;
+import com.springboot.Library_management.library.exception.BooksExistsException;
 import com.springboot.Library_management.library.exception.ResourceNotFoundException;
 
 public interface BookService {
 
-	public Books addBooks(Books book);
+	public Books addBooks(Books book) throws BooksExistsException;
 
 	public void deleteBooks(int bookId) throws ResourceNotFoundException;
 

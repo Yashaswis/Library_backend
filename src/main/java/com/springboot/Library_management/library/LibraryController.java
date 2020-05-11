@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.Library_management.library.exception.BooksExistsException;
 import com.springboot.Library_management.library.exception.ResourceNotFoundException;
 import com.springboot.Library_management.library.service.BookService;
 @RestController
@@ -28,7 +29,7 @@ public class LibraryController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(path="/books")
-	public ResponseEntity<Books> addBooks(@Valid @RequestBody Books book) {
+	public ResponseEntity<Books> addBooks(@Valid @RequestBody Books book) throws BooksExistsException {
 		 return new ResponseEntity<Books>(bookService.addBooks(book),HttpStatus.OK);
 	}
 

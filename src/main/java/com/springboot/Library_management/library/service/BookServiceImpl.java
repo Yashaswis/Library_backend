@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.springboot.Library_management.library.Books;
 import com.springboot.Library_management.library.LibraryRepository;
+import com.springboot.Library_management.library.exception.BooksExistsException;
 import com.springboot.Library_management.library.exception.ResourceNotFoundException;
 
 @Service("bookService")
@@ -18,7 +19,11 @@ public class BookServiceImpl implements BookService {
 //	Books bookEntity = new Books();
 //	BeanUtils.copyProperties(bookEntity, book);
 	@Override
-	public Books addBooks(Books book) {
+	public Books addBooks(Books book)throws BooksExistsException {
+		Books existingBooks = libraryRepository.findByBookname(book.getBookname());
+		if(existingBooks != null) {
+			throw new BooksExistsException("Book already exists in repository");
+		}
 		return libraryRepository.save(book);
 	}
 
