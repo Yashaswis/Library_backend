@@ -1,17 +1,18 @@
 package com.springboot.Library_management.library.service;
 import java.util.List;
-import java.util.Optional;
-import com.springboot.Library_management.library.BooksRequestDto;
+import com.springboot.Library_management.library.Books;
+import com.springboot.Library_management.library.exception.ResourceNotFoundException;
 
 public interface BookService {
 
-	public BooksRequestDto addBooks(BooksRequestDto book);
+	public Books addBooks(Books book);
 
-	public BooksRequestDto updateBooks(Integer bookId,BooksRequestDto book);
+	public void deleteBooks(int bookId) throws ResourceNotFoundException;
 
-	public void deleteBooks(int bookId);
-
-	public Optional<BooksRequestDto> getBooksbyId(Integer bookId);
+	public Books getBooksbyId(int bookId) throws ResourceNotFoundException;
 	
-	public List<BooksRequestDto> getAllBooks();
+	public List<Books> getAllBooks();
+
+	public Books updateBooks(int bookId, Books book) throws ResourceNotFoundException;
+
 }

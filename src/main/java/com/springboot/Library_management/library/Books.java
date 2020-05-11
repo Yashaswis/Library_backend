@@ -21,17 +21,8 @@ public class Books {
 	private int edition;
 	private float amount;
 	
-	public Books(){
-		
+	public Books(){	
 	} 
-	
-	public Books(String bookname, String author, String date, int edition,float amount) {
-		this.bookname=bookname;
-		this.author=author;
-		this.edition=edition;
-		this.date=date;
-		this.amount=amount;
-	}
 	public int getBookId() {
 		return bookId;
 	}

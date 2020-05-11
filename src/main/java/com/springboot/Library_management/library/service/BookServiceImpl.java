@@ -1,48 +1,70 @@
 package com.springboot.Library_management.library.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.springboot.Library_management.library.BooksRequestDto;
+import com.springboot.Library_management.library.Books;
 import com.springboot.Library_management.library.LibraryRepository;
+import com.springboot.Library_management.library.exception.ResourceNotFoundException;
 
 @Service("bookService")
 public class BookServiceImpl implements BookService {
 	@Autowired
 	private LibraryRepository libraryRepository;
-	
-	
+//	BooksRequestDto book = new BooksRequestDto();
+//	Books bookEntity = new Books();
+//	BeanUtils.copyProperties(bookEntity, book);
 	@Override
-	public BooksRequestDto addBooks(BooksRequestDto book) {
-		// TODO Auto-generated method stub
+	public Books addBooks(Books book) {
 		return libraryRepository.save(book);
 	}
 
 	@Override
-	public BooksRequestDto updateBooks(Integer bookId , BooksRequestDto book) {
-		// TODO Auto-generated method stub
-		return libraryRepository.save(book);
+	public Books updateBooks(int bookId , Books book)throws ResourceNotFoundException {
+		Optional<Books> books = libraryRepository.findById(bookId);
+		if(books.isPresent()) {
+			return libraryRepository.save(book);
+		}
+		else {
+			throw new ResourceNotFoundException("No book record exist for given id");
+		}
 	}
 
 	@Override
-	public Optional<BooksRequestDto> getBooksbyId(Integer bookId) {
-		// TODO Auto-generated method stub
-		return libraryRepository.findById(bookId);
+	public Books getBooksbyId(int bookId) throws ResourceNotFoundException {
+		Optional<Books> book = libraryRepository.findById(bookId);
+		if(book.isPresent()) {
+			return book.get();
+		}
+		else {
+			throw new ResourceNotFoundException("No book record exist for given id");
+		}
+		
 	}
 
 	@Override
-	public List<BooksRequestDto> getAllBooks() {
-		// TODO Auto-generated method stub
-		return (List<BooksRequestDto>) libraryRepository.findAll();
+	public List<Books> getAllBooks() {
+		List<Books> list = libraryRepository.findAll();
+		if(list.size()>0) {
+			return list;
+		}
+		else {
+		return new ArrayList<Books>();
+		}
 	}
 
 	@Override
-	public void deleteBooks(int bookId) {
-		// TODO Auto-generated method stub
-		libraryRepository.deleteById(bookId);
+	public void deleteBooks(int bookId) throws ResourceNotFoundException{
+		Optional<Books> book = libraryRepository.findById(bookId);
+		if(book.isPresent()) {
+			libraryRepository.deleteById(bookId);
+		}
+		else {
+			throw new ResourceNotFoundException("No book record exist for given id");
+		}
 	}
 
 }

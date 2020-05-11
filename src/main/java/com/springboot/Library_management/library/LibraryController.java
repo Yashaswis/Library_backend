@@ -1,7 +1,11 @@
 package com.springboot.Library_management.library;
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,45 +17,49 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.Library_management.library.exception.ResourceNotFoundException;
 import com.springboot.Library_management.library.service.BookService;
 @RestController
 
 public class LibraryController {
-	@Autowired(required=true)
+	@Autowired
 	private BookService bookService;
 	
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(path="/books")
-	public ResponseEntity<BooksRequestDto> addBooks(@RequestBody BooksRequestDto book) {
-		 return new ResponseEntity<BooksRequestDto>(bookService.addBooks(book),HttpStatus.OK);
+	public ResponseEntity<Books> addBooks(@Valid @RequestBody Books book) {
+		 return new ResponseEntity<Books>(bookService.addBooks(book),HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(path="/books")
-	public List<BooksRequestDto> getAllBooks() {
-		return (List<BooksRequestDto>) bookService.getAllBooks();
+	public ResponseEntity<List<Books>> getAllBooks() {
+		List<Books> list = bookService.getAllBooks();
+		return new ResponseEntity<List<Books>>(list, new HttpHeaders(),HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(path="/books/{bookId}")
-	public Optional<BooksRequestDto> getBooksbyId(@PathVariable("bookId") int bookId) {
-		return bookService.getBooksbyId(bookId);
+	public ResponseEntity<Books> getBooksbyId(@PathVariable(value="bookId") int bookId) throws ResourceNotFoundException {
+		Books book = bookService.getBooksbyId(bookId);
+        return new ResponseEntity<Books>(book, new HttpHeaders(),HttpStatus.OK);
 
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@DeleteMapping(path="/books/{bookId}")
-	public void deleteBooks( @PathVariable int bookId ){
-		bookService.deleteBooks(bookId);	
+	public HttpStatus deleteBooks( @PathVariable int bookId )throws ResourceNotFoundException{
+		bookService.deleteBooks(bookId);
+		return HttpStatus.FORBIDDEN;
 	}
 	
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PutMapping(path="/books/{bookId}")
-	public BooksRequestDto updateBooks(@PathVariable("bookId") int bookId, @RequestBody BooksRequestDto book) {
-
-		return bookService.updateBooks(bookId, book);
+	public ResponseEntity<Books> updateBooks(@PathVariable("bookId") int bookId,@Valid @RequestBody Books book) throws ResourceNotFoundException {
+		Books books = bookService.updateBooks(bookId,book);
+		return new ResponseEntity<Books>(books, new HttpHeaders(),HttpStatus.OK);
 
 	}
 	
