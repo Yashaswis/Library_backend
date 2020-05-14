@@ -16,25 +16,25 @@ import com.springboot.Library_management.library.repo.LibraryRepository;
 public class BookServiceImpl implements BookService {
 	@Autowired
 	private LibraryRepository libraryRepository;
+
 //	BooksRequestDto book = new BooksRequestDto();
 //	Books bookEntity = new Books();
 //	BeanUtils.copyProperties(bookEntity, book);
 	@Override
-	public Books addBooks(Books book)throws BooksExistsException {
+	public Books addBooks(Books book) throws BooksExistsException {
 		Books existingBooks = libraryRepository.findByBookname(book.getBookname());
-		if(existingBooks != null) {
+		if (existingBooks != null) {
 			throw new BooksExistsException("Book already exists in repository");
 		}
 		return libraryRepository.save(book);
 	}
 
 	@Override
-	public Books updateBooks(int bookId , Books book)throws ResourceNotFoundException {
+	public Books updateBooks(int bookId, Books book) throws ResourceNotFoundException {
 		Optional<Books> books = libraryRepository.findById(bookId);
-		if(books.isPresent()) {
+		if (books.isPresent()) {
 			return libraryRepository.save(book);
-		}
-		else {
+		} else {
 			throw new ResourceNotFoundException("No book record exist for given id");
 		}
 	}
@@ -42,34 +42,31 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public Books getBooksbyId(int bookId) throws ResourceNotFoundException {
 		Optional<Books> book = libraryRepository.findById(bookId);
-		if(book.isPresent()) {
+		if (book.isPresent()) {
 			return book.get();
-		}
-		else {
+		} else {
 			throw new ResourceNotFoundException("No book record exist for given id");
 		}
-		
+
 	}
 
 	@Override
 	public List<Books> getAllBooks() {
 		List<Books> list = (List<Books>) libraryRepository.findAll();
-		if(list.size()>0) {
+		if (list.size() > 0) {
 			return list;
-		}
-		else {
-		return new ArrayList<Books>();
+		} else {
+			return new ArrayList<Books>();
 		}
 	}
 
 	@Override
-	public void deleteBooks(int bookId) throws ResourceNotFoundException{
+	public void deleteBooks(int bookId) throws ResourceNotFoundException {
 		Optional<Books> book = libraryRepository.findById(bookId);
-		if(book.isPresent()) {
+		if (book.isPresent()) {
 			libraryRepository.deleteById(bookId);
-			
-		}
-		else {
+
+		} else {
 			throw new ResourceNotFoundException("No book record exist for given id");
 		}
 	}

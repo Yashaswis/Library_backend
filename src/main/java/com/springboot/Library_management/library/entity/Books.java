@@ -1,6 +1,5 @@
 package com.springboot.Library_management.library.entity;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,10 +8,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Books {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "book_Id")
