@@ -1,6 +1,8 @@
 package com.springboot.Library_management.library.service;
 import java.util.List;
-import com.springboot.Library_management.library.Books;
+import java.util.Optional;
+
+import com.springboot.Library_management.library.entity.Books;
 import com.springboot.Library_management.library.exception.BooksExistsException;
 import com.springboot.Library_management.library.exception.ResourceNotFoundException;
 

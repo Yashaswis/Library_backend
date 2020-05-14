@@ -1,6 +1,6 @@
-package com.springboot.Library_management.library;
+package com.springboot.Library_management.library.entity;
 
-import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Books implements Serializable {
+public class Books {
 	/**
 	 * 
 	 */

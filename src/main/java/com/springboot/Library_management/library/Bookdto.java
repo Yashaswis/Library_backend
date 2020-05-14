@@ -1,13 +1,20 @@
 package com.springboot.Library_management.library;
 
-public class BooksRequestDto {
+import java.io.Serializable;
+
+public class Bookdto implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int bookId;
 	private String bookname;
 	private String author;
 	private String date;
 	private int edition;
-	
-	
+	private float amount;
 	public int getBookId() {
 		return bookId;
 	}
@@ -44,5 +51,4 @@ public class BooksRequestDto {
 	public void setAmount(float amount) {
 		this.amount = amount;
 	}
-	private float amount;
 }

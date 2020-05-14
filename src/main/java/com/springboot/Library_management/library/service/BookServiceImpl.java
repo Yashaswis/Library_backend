@@ -6,10 +6,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.springboot.Library_management.library.Books;
-import com.springboot.Library_management.library.LibraryRepository;
+
+import com.springboot.Library_management.library.entity.Books;
 import com.springboot.Library_management.library.exception.BooksExistsException;
 import com.springboot.Library_management.library.exception.ResourceNotFoundException;
+import com.springboot.Library_management.library.repo.LibraryRepository;
 
 @Service("bookService")
 public class BookServiceImpl implements BookService {
@@ -52,7 +53,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<Books> getAllBooks() {
-		List<Books> list = libraryRepository.findAll();
+		List<Books> list = (List<Books>) libraryRepository.findAll();
 		if(list.size()>0) {
 			return list;
 		}
@@ -66,6 +67,7 @@ public class BookServiceImpl implements BookService {
 		Optional<Books> book = libraryRepository.findById(bookId);
 		if(book.isPresent()) {
 			libraryRepository.deleteById(bookId);
+			
 		}
 		else {
 			throw new ResourceNotFoundException("No book record exist for given id");

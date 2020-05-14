@@ -1,6 +1,7 @@
 package com.springboot.Library_management;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.when;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -17,9 +19,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.springboot.Library_management.library.Books;
-import com.springboot.Library_management.library.LibraryRepository;
+import com.springboot.Library_management.library.entity.Books;
 import com.springboot.Library_management.library.exception.BooksExistsException;
+import com.springboot.Library_management.library.exception.ResourceNotFoundException;
+import com.springboot.Library_management.library.repo.LibraryRepository;
 import com.springboot.Library_management.library.service.BookService;
 
 @RunWith(SpringRunner.class)
@@ -32,52 +35,36 @@ public class BookServiceTest {
 	@MockBean
 	private LibraryRepository libraryRepository;
 	
+	Books book = new Books();
 	
-	@Test
-	public void testaddBooks() throws BooksExistsException {
-		Books book = new Books();
+	@Before
+	public void init() {
 		book.setBookId(1);
 		book.setAuthor("charls babbage");
 		book.setBookname("cpp");
 		book.setEdition(2);
 		book.setDate("jan");
 		book.setAmount(2300);
+	}
+	
+	@Test
+	public void testaddBooks() throws BooksExistsException {
 		
 		when(libraryRepository.save(book)).thenReturn(book);
 		assertEquals(book, bookService.addBooks(book));
 	}
 	
 	@Test
-	public void testgetBooksById() {
-		Books book = new Books();
-		book.setBookId(1);
-		book.setAuthor("charls babbage");
-		book.setBookname("cpp");
-		book.setEdition(2);
-		book.setDate("jan");
-		book.setAmount(2300);
+	public void testgetBooksById() throws ResourceNotFoundException {
 		
-		Mockito.when(libraryRepository.findById(1)).thenReturn(book);
+		Mockito.when(libraryRepository.findById(1)).thenReturn(Optional.of(book));
+		assertThat(bookService.getBooksbyId(1)).isEqualTo(book);
 	}
 	
 	@Test
 	public void testgetAllBook() {
-		Books book1 = new Books();
-		book1.setBookId(1);
-		book1.setAuthor("charls babbage");
-		book1.setBookname("cpp");
-		book1.setEdition(2);
-		book1.setDate("jan");
-		book1.setAmount(2300);
-		
-		Books book2 = new Books();
-		book2.setBookId(2);
-		book2.setAuthor("charls babbage");
-		book2.setBookname("cpp");
-		book2.setEdition(2);
-		book2.setDate("jan");
-		book2.setAmount(2300);
-		
+		Books book1 = new Books(2,"bookname","author","2020-04-20",5,200);
+		Books book2 = new Books(3,"bookname1","author2","2020-04-20",2,800);
 		List<Books> bookList = new ArrayList<>();
 		bookList.add(book1);
 		bookList.add(book2);
@@ -87,16 +74,9 @@ public class BookServiceTest {
 	}
 	
 	@Test
-	public void testupdateBook() {
-		Books book = new Books();
-		book.setBookId(1);
-		book.setAuthor("charls babbage");
-		book.setBookname("cpp");
-		book.setEdition(2);
-		book.setDate("jan");
-		book.setAmount(2300);
+	public void testupdateBook() throws ResourceNotFoundException {
 		
-		when(libraryRepository.findById(1)).thenReturn(book);
+		when(libraryRepository.findById(1)).thenReturn(Optional.of(book));
 		book.setBookname("c++");
 		
 		when(libraryRepository.save(book)).thenReturn(book);
@@ -105,20 +85,13 @@ public class BookServiceTest {
 	}
 	
 	@Test
-	public void testdeletebook() {
-		Books book = new Books();
-		book.setBookId(1);
-		book.setAuthor("charls babbage");
-		book.setBookname("cpp");
-		book.setEdition(2);
-		book.setDate("jan");
-		book.setAmount(2300);
+	public void testdeletebook() throws ResourceNotFoundException {
 		
-		when(libraryRepository.findById(1)).thenReturn(book);
+		when(libraryRepository.findById(1)).thenReturn(Optional.of(book));
 		
-		when(libraryRepository.exists(book.getBookId())).thenReturn(false);
+		when(libraryRepository.existsById(book.getBookId())).thenReturn(false);
 		
-		assertFalse(libraryRepository.exists(book.getBookId()));
+		assertFalse(libraryRepository.existsById(book.getBookId()));
 	}
 
 	

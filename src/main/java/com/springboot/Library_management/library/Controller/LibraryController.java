@@ -1,4 +1,4 @@
-package com.springboot.Library_management.library;
+package com.springboot.Library_management.library.Controller;
 import java.util.List;
 
 
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.Library_management.library.entity.Books;
 import com.springboot.Library_management.library.exception.BooksExistsException;
 import com.springboot.Library_management.library.exception.ResourceNotFoundException;
 import com.springboot.Library_management.library.service.BookService;
